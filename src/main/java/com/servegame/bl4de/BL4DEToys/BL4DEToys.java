@@ -1,17 +1,16 @@
 package com.servegame.bl4de.BL4DEToys;
 
 import com.google.inject.Inject;
+import com.servegame.bl4de.BL4DEToys.EventHandlers.BL4DEEventHandler;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.projectile.arrow.TippedArrow;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.CollideBlockEvent;
 import org.spongepowered.api.event.filter.cause.Root;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameLoadCompleteEvent;
 import org.spongepowered.api.plugin.Plugin;
-
-import java.util.Optional;
 
 /**
  * File: BL4DEToys.java
@@ -23,10 +22,17 @@ import java.util.Optional;
 public class BL4DEToys {
 
     @Inject
-    Game game;
+    private Game game;
 
     @Inject
-    Logger logger;
+    private Logger logger;
+
+    //private BL4DEEventHandler BEH;
+
+    @Listener
+    public void onInit(GameInitializationEvent event){
+        //this.BEH = new BL4DEEventHandler(this.game);
+    }
 
     @Listener
     public void onLoad(GameLoadCompleteEvent event){
@@ -42,11 +48,6 @@ public class BL4DEToys {
      */
     @Listener
     public void onCollideBlockEventImpact(CollideBlockEvent.Impact event, @Root TippedArrow arrow){
-
-        Optional<Player> playerOptional = event.getCause().get("Name", Player.class);
-        if (playerOptional.isPresent()){
-            Player player = playerOptional.get();
-            player.setLocation(event.getImpactPoint());
-        }
+        BL4DEEventHandler.handleEvent(event);
     }
 }
