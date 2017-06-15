@@ -27,11 +27,19 @@ public class BL4DEToys {
     @Inject
     private Logger logger;
 
-    //private BL4DEEventHandler BEH;
+    private BL4DEEventHandler eventHandler;
+
+    public Game getGame() {
+        return game;
+    }
+
+    public Logger getLogger() {
+        return logger;
+    }
 
     @Listener
     public void onInit(GameInitializationEvent event){
-        //this.BEH = new BL4DEEventHandler(this.game);
+        this.eventHandler = new BL4DEEventHandler(this);
     }
 
     @Listener
@@ -48,6 +56,6 @@ public class BL4DEToys {
      */
     @Listener
     public void onCollideBlockEventImpact(CollideBlockEvent.Impact event, @Root TippedArrow arrow){
-        BL4DEEventHandler.handleEvent(event);
+        this.eventHandler.handleEvent(event);
     }
 }
