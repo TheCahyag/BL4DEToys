@@ -17,7 +17,7 @@ public class ArrowImpactEventHandler {
      * @param event - {@link CollideBlockEvent.Impact} - events that do not root a {@link TippedArrow} do not get here
      */
     public static boolean handle(CollideBlockEvent.Impact event) {
-        Optional<Player> playerOptional = event.getCause().get("Name", Player.class);
+        Optional<Player> playerOptional = event.getCause().get("Owner", Player.class);
         if (playerOptional.isPresent()){
             Player player = playerOptional.get();
             player.setLocation(event.getImpactPoint());
